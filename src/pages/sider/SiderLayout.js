@@ -21,7 +21,7 @@ class SiderLayout extends Component {
   }
   // HACK: onClick menu set lai current bang key de tô background item da chọn
   selectedOnClickHandler = e => {
-    console.log(e.key)
+    // console.log(e.key)
     this.setState({
       current: e.key
     })

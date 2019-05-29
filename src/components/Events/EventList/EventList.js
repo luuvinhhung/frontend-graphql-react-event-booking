@@ -21,8 +21,16 @@ const columns = [
   {
     title: 'Date',
     dataIndex: 'event.date',
-    render: text => new Date(text).toLocaleDateString(),
-    sorter: (a, b) => moment(a.event.date).valueOf() - moment(b.event.date).valueOf(),
+    render: text => {
+      let dateBackground = 'date '
+      let diff = moment(text).diff(moment())
+      const days = moment(diff).days()
+      // console.log(days)
+      diff > 0 && days < 7 ? dateBackground += 'green' : dateBackground += 'red'
+      return <div className={dateBackground}>{new Date(text).toLocaleDateString()}</div>
+    },
+    sorter: (a, b) =>
+      moment(a.event.date).valueOf() - moment(b.event.date).valueOf(),
     sortDirections: ['descend', 'ascend']
   },
   {
@@ -31,15 +39,22 @@ const columns = [
     dataIndex: 'onDetail',
     align: 'center',
     render: (text, record) => {
-      return record.creatorId === record.userId
-        ? <p>Your the owner this event</p>
-        : <Button onClick={record.onDetail.bind(this, record.eventId)} shape='round' type='primary'>Join now!</Button>
+      return record.creatorId === record.userId ? (
+        <p>Your the owner this event</p>
+      ) : (
+        <Button
+          onClick={record.onDetail.bind(this, record.eventId)}
+          shape='round'
+          type='primary'
+        >
+          Join now!
+        </Button>
+      )
     }
-
   }
 ]
 
-const EventList = (props) => {
+const EventList = props => {
   const pagination = { position: 'bottom', pageSize: 5 }
   const data = props.events.map(event => {
     return {

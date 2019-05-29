@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { AgGridReact } from 'ag-grid-react'
 // TODO: them button vao row: https://www.ag-grid.com/javascript-grid-cell-rendering-components/
-import ChildMessageRenderer from './ChildMessageRenderer'
+// import ChildMessageRenderer from './ChildMessageRenderer'
 import 'ag-grid-enterprise'
 import { Spin } from 'antd'
 import './Grid.scss'

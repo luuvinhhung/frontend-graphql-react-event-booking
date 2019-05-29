@@ -21,7 +21,7 @@ export default class Grid extends Component {
         // sortable: true,
         // resizable: true,
         // filter: true
-      },
+      }
       // frameworkComponents: {
       //   childMessageRenderer: ChildMessageRenderer
       // }
@@ -122,12 +122,13 @@ export default class Grid extends Component {
     // }, 500);
   }
   render () {
-    const { rowData, events } = this.state
+    const { events } = this.state
     return (
       <div
         className='ag-theme-balham'
+        // HACK: phai co height de hien thi grid
         style={{
-          height: '400px',
+          height: '500px',
           width: '100%'
         }}
       >

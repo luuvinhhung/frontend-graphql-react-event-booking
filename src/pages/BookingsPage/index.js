@@ -55,7 +55,7 @@ class BookingsPage extends Component {
         })
       })
       .catch(err => {
-        console.log(err)
+        console.log('FE:', err)
         this.setState({ isLoading: false })
       })
   }

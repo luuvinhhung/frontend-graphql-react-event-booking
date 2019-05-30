@@ -3,6 +3,7 @@ import { AgGridReact } from 'ag-grid-react'
 // TODO: them button vao row: https://www.ag-grid.com/javascript-grid-cell-rendering-components/
 // import ChildMessageRenderer from './ChildMessageRenderer'
 import 'ag-grid-enterprise'
+
 import { Spin } from 'antd'
 import './Grid.scss'
 
@@ -21,6 +22,29 @@ export default class Grid extends Component {
         // sortable: true,
         // resizable: true,
         // filter: true
+      },
+      // autoGroupColumnDef: {
+      //   headerName: 'TitleGroup',
+      //   field: 'title',
+      //   cellRenderer: 'agGroupCellRenderer',
+      //   cellRendererParams: {
+      //     checkbox: true
+      //   }
+      // },
+      statusBar: {
+        statusPanels: [
+          {
+            statusPanel: 'agTotalRowCountComponent',
+            align: 'left'
+          },
+          {
+            statusPanel: 'agAggregationComponent',
+            statusPanelParams: {
+              // possible values are: 'count', 'sum', 'min', 'max', 'avg'
+              aggFuncs: ['avg', 'sum']
+            }
+          }
+        ]
       }
       // frameworkComponents: {
       //   childMessageRenderer: ChildMessageRenderer
@@ -37,13 +61,16 @@ export default class Grid extends Component {
       ? keysOfEvent.forEach(key => {
         if (key === 'title' || key === 'date') {
           const obj = {
+            headerName: key.charAt(0).toUpperCase() + key.slice(1),
             field: key,
             sortable: true,
             filter: 'agTextColumnFilter'
+            // rowGroup: true
           }
           columnDefs.push(obj)
         } else if (key === 'price') {
           const obj = {
+            headerName: key.charAt(0).toUpperCase() + key.slice(1),
             field: key,
             sortable: true,
             filter: 'agNumberColumnFilter'
@@ -87,25 +114,11 @@ export default class Grid extends Component {
       }
       rowData.push(row)
     })
-    console.log('TCL: Grid -> convertData -> row', rowData)
+    // console.log('TCL: Grid -> convertData -> row', rowData)
     this.setState({
       rowData
     })
   }
-  // componentDidMount () {
-  //   setTimeout(
-  //     function () {
-  //       this.convertColumnDefs()
-  //     }.bind(this),
-  //     500
-  //   )
-  //   setTimeout(
-  //     function () {
-  //       this.convertData()
-  //     }.bind(this),
-  //     1000
-  //   )
-  // }
   onGridReady = params => {
     this.gridApi = params.api
     this.gridColumnApi = params.columnApi
@@ -113,13 +126,6 @@ export default class Grid extends Component {
     this.convertData()
     // HACK: method chi thuc hien sau khi co data va render ra
     params.api.sizeColumnsToFit()
-
-    // setTimeout(function () {
-    //   var rowCount = 0;
-    //   params.api.forEachNode(function (node) {
-    //     node.setExpanded(rowCount++ === 1);
-    //   });
-    // }, 500);
   }
   render () {
     const { events } = this.state
@@ -136,8 +142,11 @@ export default class Grid extends Component {
           <AgGridReact
             columnDefs={this.state.columnDefs}
             onGridReady={this.onGridReady}
-            animateRows={'true'}
+            // animateRows={'true'}
             floatingFilter={'true'}
+            // autoGroupColumnDef={this.state.autoGroupColumnDef}
+            statusBar={this.state.statusBar}
+            enableRangeSelection={'true'}
             defaultColDef={this.state.defaultColDef}
             rowData={this.state.rowData}
           />

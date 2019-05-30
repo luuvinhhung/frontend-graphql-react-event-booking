@@ -152,7 +152,7 @@ class EventsPage extends Component {
               <Input min={'0'} type='number' id='price' ref={this.priceEl} />
             </div>
             <div className='form-control'>
-              <label htmlFor='date'>Date</label>
+              <p><label htmlFor='date'>Date</label></p>
               <DatePicker
                 defaultValue={moment(new Date(), dateFormat)}
                 format={dateFormat}

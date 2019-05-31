@@ -1,21 +1,31 @@
-.auth-form {
-  width: 25rem;
-  max-width: 80%;
-  margin: 5rem auto;
+$bg-img: url("https://firebasestorage.googleapis.com/v0/b/hotelbooking-7127d.appspot.com/o/seonyeong-6.png?alt=media&token=298a95fd-b3dd-4d59-98d4-79add18fcd50");
+
+#components-form-demo-normal-login {
+	text-align: center;
+	.login-form {
+		height: 100vh;
+		background-color: white;
+    padding: 56px 40px;
+		.login-form-header {
+			h1 {
+				color: #ff4d4f;
+				font-family: 'Allura', cursive;
+			}
+			h4 {
+				color: #8c8c8c;
+			}
+		}
+		.login-form-button {
+			width: 100%;
+		}
+	}
 }
 
-.form-control label {
-  min-height: 20px;
-  width: 100%;
-  display: block;
-  border-radius: 3px;
-
-}
-
-.form-control label {
-  margin-bottom: 0.5rem;
-}
-
-.form-control {
-  margin-bottom: 1rem;
-}
+// #layout-login {
+//   background: $bg-img;
+// 	background-repeat: no-repeat;
+// 	background-position: left;
+//   background-attachment: fixed;
+//   height: 100vh;
+//   border: 1px solid black;
+// }

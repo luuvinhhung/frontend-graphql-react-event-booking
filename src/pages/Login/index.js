@@ -1,80 +1,61 @@
 import React, { Component } from 'react'
-import './Login.scss'
 import { withApollo } from 'react-apollo'
 import { login } from '../../graphql/queries/loginQueries'
-import { Button, Input, Row, Col } from 'antd'
+import { Button, Input, Row, Col, Form, Icon, Typography } from 'antd'
+
+// import './Login.scss'
+
 import Auth from '../../context/Authentication'
 
+const { Title } = Typography
+
 class Login extends Component {
-  constructor (props) {
-    super(props)
-    this.emailEl = React.createRef()
-    this.passwordEl = React.createRef()
-    this.state = {
-      isLogin: true
-    }
+  state = {
+    email: 'hung@gmail.com',
+    password: '123'
   }
-  switchModeHandle = () => {
-    this.setState(prevState => {
-      return { isLogin: !prevState.isLogin }
-    })
-  }
+  // componentWillMount () {
+  //   const token = window.localStorage.getItem('access-token')
+  //   if (token) {
+  //     this.props.history.push('/home')
+  //   }
+  // }
   submitHandle = e => {
     e.preventDefault()
-    // const email = this.emailEl.current.state.value
-    // const password = this.passwordEl.current.state.value
-    const email = 'hung@gmail.com'
-    const password = '123'
-    // console.log(email, password)
-    if (email.trim().lenght === 0 || password.trim().length === 0) {
-      console.log('email or password is empty')
-      return
-    }
-    this.props.client
-      .query({
-        query: login,
-        variables: {
-          email: email,
-          password: password
-        }
-      })
-      .then(resData => {
-        // console.log(resData)
-        if (resData.data.login.token) {
-          Auth.authenticate(() => {
-            window.localStorage.setItem(
-              'access-token',
-              resData.data.login.token
-            )
-            window.localStorage.setItem('userId', resData.data.login.userId)
-            this.props.history.push('/home')
-            // this.setState({ loading: false, spin: false })
-          })
-        }
-      })
-      .catch(err => {
-        console.log(err)
-      })
-    // if (!this.state.isLogin) {
-    //   let requestBody = {
-    //     query: `
-    //       mutation CreateUser($email: String!, $password: String!) {
-    //         createUser(userInput: {email: $email, password: $password}) {
-    //           _id
-    //           email
-    //         }
-    //       }
-    //     `,
-    //     variables: {
-    //       email: email,
-    //       password: password
-    //     }
-    //   }
-    // }
-    // console.log(requestBody.query)
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
+        // console.log('Received values of form: ', values)
+      }
+      const { email, password } = values
+      this.props.client
+        .query({
+          query: login,
+          variables: {
+            email: email,
+            password: password
+          }
+        })
+        .then(resData => {
+          // console.log(resData)
+          if (resData.data.login.token) {
+            Auth.authenticate(() => {
+              window.localStorage.setItem(
+                'access-token',
+                resData.data.login.token
+              )
+              window.localStorage.setItem('userId', resData.data.login.userId)
+              this.props.history.push('/home')
+              // this.setState({ loading: false, spin: false })
+            })
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    })
   }
   render () {
-    const { isLogin } = this.state
+    const { getFieldDecorator } = this.props.form
     return (
       <>
         <Row id='layout-login'>
@@ -85,30 +66,74 @@ class Login extends Component {
             lg={{ span: 12, offset: 12 }}
             xl={{ span: 7, offset: 17 }}
           >
-            <form className='auth-form' onSubmit={this.submitHandle}>
-              <div className='form-control'>
-                <label htmlFor='email'>E-mail</label>
-                <Input type='email' id='email' ref={this.emailEl} />
-              </div>
-              <div className='form-control'>
-                <label htmlFor='password'>Password</label>
-                <Input type='password' id='password' ref={this.passwordEl} />
-              </div>
-              <div className='form-actions'>
-                <Button
-                  htmlType='submit'
-                  disabled={!isLogin}
-                  // onClick={this.switchModeHandle}
-                  type='primary'
-                >
-                  Login
-                </Button>
-              </div>
-            </form>
+            <div>
+              <Form onSubmit={this.submitHandle} className='login-form'>
+                <div className='login-form-header'>
+                  <Title level={1}>LOGIN</Title>
+                </div>
+                <Form.Item>
+                  {getFieldDecorator('email', {
+                    valuePropName: 'defaultValue',
+                    initialValue: this.state.email,
+                    rules: [
+                      {
+                        type: 'email',
+                        message: 'The input is not valid E-mail!'
+                      },
+                      {
+                        required: true,
+                        message: 'Please input your E-mail!'
+                      }
+                    ]
+                  })(
+                    <Input
+                      prefix={
+                        <Icon
+                          type='mail'
+                          style={{ color: 'rgba(0,0,0,.25)' }}
+                        />
+                      }
+                      placeholder='your@email.com'
+                    />
+                  )}
+                </Form.Item>
+                <Form.Item>
+                  {getFieldDecorator('password', {
+                    valuePropName: 'defaultValue',
+                    initialValue: this.state.password,
+                    rules: [
+                      {
+                        required: true,
+                        message: 'Please input your Password!'
+                      }
+                    ]
+                  })(
+                    <Input
+                      prefix={
+                        <Icon
+                          type='lock'
+                          style={{ color: 'rgba(0,0,0,.25)' }}
+                        />
+                      }
+                      type='password'
+                      placeholder='Password'
+                    />
+                  )}
+                </Form.Item>
+                <Form.Item>
+                  <Button
+                    htmlType='submit'
+                    type='primary'
+                  >
+                    Login
+                  </Button>
+                </Form.Item>
+              </Form>
+            </div>
           </Col>
         </Row>
       </>
     )
   }
 }
-export default withApollo(Login)
+export default withApollo(Form.create({ name: 'normal_login' })(Login))

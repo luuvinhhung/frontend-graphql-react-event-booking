@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import './Events.scss'
 import moment from 'moment'
 import { withApollo } from 'react-apollo'
 import { Button, Input, DatePicker, Spin } from 'antd'
+
+import './Events.scss'
+
 import Modal from '../../components/Modal/modal'
 // import AuthContext from '../context/auth.context'
 import EventList from '../../components/Events/EventList/EventList'

@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { Spin } from 'antd'
 // import AuthContext from '../context/auth.context'
 import { withApollo } from 'react-apollo'
-import BookingList from '../../components/Bookings/BookingList/BookingList'
-import BookingsChart from '../../components/Bookings/BookingChart/BookingChart'
-import BookingsControls from '../../components/Bookings/BookingControls/BookingControls'
-import { bookingsQuery, cancelBooking } from '../../graphql/queries/bookingsQueries'
+import BookingList from '../../../components/Bookings/BookingList'
+import BookingsChart from '../../../components/Bookings/BookingChart'
+import BookingsControls from '../../../components/Bookings/BookingControls'
+import { bookingsQuery, cancelBooking } from '../../../graphql/queries/bookingsQueries'
 
 class BookingsPage extends Component {
   state = {

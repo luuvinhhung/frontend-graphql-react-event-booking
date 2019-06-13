@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { withApollo } from 'react-apollo'
+import { inject, observer } from 'mobx-react'
+
 import { login } from '../../graphql/queries/loginQueries'
 import { Button, Input, Row, Col, Form, Icon, Typography } from 'antd'
 
 // import './Login.scss'
-
-import Auth from '../../context/Authentication'
-
 const { Title } = Typography
 
+@inject('store')
+@observer
 class Login extends Component {
   state = {
     email: 'hung@gmail.com',
@@ -38,15 +39,8 @@ class Login extends Component {
         .then(resData => {
           // console.log(resData)
           if (resData.data.login.token) {
-            Auth.authenticate(() => {
-              window.localStorage.setItem(
-                'access-token',
-                resData.data.login.token
-              )
-              window.localStorage.setItem('userId', resData.data.login.userId)
-              this.props.history.push('/home')
-              // this.setState({ loading: false, spin: false })
-            })
+            this.props.store.authStore.authenticate(resData.data.login.token, resData.data.login.userId)
+            this.props.history.push('/home')
           }
         })
         .catch(err => {
@@ -121,10 +115,7 @@ class Login extends Component {
                   )}
                 </Form.Item>
                 <Form.Item>
-                  <Button
-                    htmlType='submit'
-                    type='primary'
-                  >
+                  <Button htmlType='submit' type='primary'>
                     Login
                   </Button>
                 </Form.Item>

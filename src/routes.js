@@ -1,8 +1,3 @@
-// import AuthPage from './pages/Login/Login'
-// import EventsPage from './pages/Events/Events'
-// import BookingsPage from './pages/Bookings/Bookings'
-// import Home from './pages/Home/Home'
-
 export const routes = [
   {
     label: 'Login',
@@ -11,9 +6,9 @@ export const routes = [
   },
   {
     label: 'Home',
-    path: '/home',
+    path: '/',
     private: true,
-    component: 'Home',
+    component: 'apps',
     routes: [
       {
         label: 'Events',

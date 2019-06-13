@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import SiderLayout from './sider/SiderLayout'
-import MainNavigation from '../components/Navigation/MainNavigation'
+import SiderLayout from '../SiderLayout'
+import MainNavigation from '../../../components/Navigation'
 
 import { Layout } from 'antd'
 
 const { Header, Content } = Layout
 class MainContent extends Component {
-  render() {
+  render () {
     return (
       <>
         <Layout>
@@ -27,14 +27,7 @@ class MainContent extends Component {
                 background: '#fff',
                 minHeight: 480
               }}
-            >{/* <Switch>
-                    {token && <Redirect from='/' to='/events' exact />}
-                    {token && <Redirect from='/auth' to='/events' exact />}
-                    <Route path='/auth' component={AuthPage} />
-                    <Route path='/events' component={EventsPage} />
-                    {token && <Route path='/bookings' component={BookingsPage} />}
-                    <Redirect to='/auth' exact />
-                  </Switch> */}
+            >
               {this.props.children}
             </Content>
           </Layout>

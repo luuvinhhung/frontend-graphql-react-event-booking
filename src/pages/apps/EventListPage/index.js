@@ -2,8 +2,8 @@ import React from 'react'
 import { withApollo } from 'react-apollo'
 import { Spin } from 'antd'
 
-import { eventsQuery } from '../../graphql/queries/eventsQueries'
-import Grid from '../../components/Grid/Grid'
+import { eventsQuery } from '../../../graphql/queries/eventsQueries'
+import Grid from '../../../components/Grid/Grid'
 
 class EventListPage extends React.Component {
   state = {

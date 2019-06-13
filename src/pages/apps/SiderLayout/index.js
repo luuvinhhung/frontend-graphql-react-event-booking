@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Layout, Menu, Icon } from 'antd'
 import './SliderLayout.scss'
 import { Link, withRouter } from 'react-router-dom'
-import { siderRoutes } from '../../routes'
+import { siderRoutes } from '../../../routes'
 
 const { Sider } = Layout
 
@@ -70,11 +70,7 @@ class SiderLayout extends Component {
             siderRoutes.map((siderRoute, i) => (
               <Menu.Item key={siderRoute.path}>
                 <Link to={siderRoute.path}>
-                  <Icon
-                    style={{ fontSize: '1rem' }}
-                    type={siderRoute.icon}
-                    theme='twoTone'
-                  />
+                  <Icon type={siderRoute.icon} />
                   {siderRoute.label.toUpperCase()}
                 </Link>
               </Menu.Item>

@@ -1,17 +1,21 @@
 import React, { Component } from 'react'
 import moment from 'moment'
 import { withApollo } from 'react-apollo'
+
+// import { inject, observer } from 'mobx-react'
+
 import { Button, Input, DatePicker, Spin } from 'antd'
 
 import './Events.scss'
 
-import Modal from '../../components/Modal/modal'
-// import AuthContext from '../context/auth.context'
-import EventList from '../../components/Events/EventList/EventList'
-import { eventsQuery, createEvent, bookEvent } from '../../graphql/queries/eventsQueries'
+import Modal from '../../../components/Modal/modal'
+import EventList from '../../../components/Events/EventList/EventList'
+import { eventsQuery, createEvent, bookEvent } from '../../../graphql/queries/eventsQueries'
 
 const { TextArea } = Input
 
+// @inject('store')
+// @observer
 class EventsPage extends Component {
   state = {
     modalVisible: false,
@@ -30,6 +34,8 @@ class EventsPage extends Component {
     this.date = ''
     this.token = window.localStorage.getItem('access-token')
     this.userId = window.localStorage.getItem('userId')
+    // const { testStore } = this.props.store
+    // console.log(testStore)
   }
   componentDidMount () {
     this.fetchEvents()

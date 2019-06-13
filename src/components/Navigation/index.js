@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
+import './MainNavigation.scss'
+
+import { inject, observer } from 'mobx-react'
+
 import { withRouter } from 'react-router-dom'
-import Auth from '../../context/Authentication'
+import { withApollo } from 'react-apollo'
+
 import { Button } from 'antd'
 
-// import AuthContext from '../../context/auth.context'
-
-import './MainNavigation.css'
+@inject('store')
+@observer
 
 class mainNavigation extends Component {
   constructor (props) {
@@ -13,8 +17,7 @@ class mainNavigation extends Component {
     this.token = window.localStorage.getItem('access-token')
   }
   logoutHandler = () => {
-    Auth.logout(() => {
-      window.localStorage.removeItem('access-token')
+    this.props.store.authStore.logout(() => {
       this.props.history.push('/login')
       // this.props.client.resetStore()
     })
@@ -39,4 +42,4 @@ class mainNavigation extends Component {
   }
 }
 
-export default withRouter(mainNavigation)
+export default withApollo(withRouter(mainNavigation))
